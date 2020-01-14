@@ -20,20 +20,24 @@
     unsigned char spot2 = 0x00;
     unsigned char spot3 = 0x00;
     unsigned char spot4 = 0x00;
-    unsigned char cntAvail = 0x04;
+    unsigned char cntAvail = 0x00;
      /* Insert your solution below */
      while (1) {
 
        spot1 = PINA & 0x01;
-       spot2 = (PINA & 0x02) >> 1;
-       spot3 = (PINA & 0x04) >> 2;
-       spot4 = (PINA & 0x08) >> 3;
+       spot2 = (PINA & 0x02);
+       spot3 = (PINA & 0x04);
+       spot4 = (PINA & 0x08);
 
-       cntAvail = cntAvail - spot1 - spot2 - spot3 - spot4;
+       cntAvail = spot1 + spot2 + spot3 + spot4;
+       cntAvail = 0x04 - cntAvail;
 
-       if(cntAvail == 0x00){
+       if(cntAvail == 0x04){
 			PORTC = 0x80;
       }else{
+         cntAvail = spot1 + spot2 + spot3 + spot4;
+         cntAvail = ~cntAvail;
+         cntAvail = cntAvail & 0x0F;
          PORTC = cntAvail;
       }
 
